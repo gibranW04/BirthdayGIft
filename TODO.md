@@ -62,3 +62,4 @@ Roadmap project Birthday Surprise (Interactive Experience Redesign).
 - [x] Production build succeeds
 - [x] Asset paths verified (`/assets/...`)
 - [ ] Deploy to hosting (Vercel / Netlify / GitHub Pages)
+- [x] Heart-shaped QR code in final section (scan-to-open gift link)

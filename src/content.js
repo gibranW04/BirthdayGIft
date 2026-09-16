@@ -141,5 +141,12 @@ export const birthdayData = {
         message: "May this year bring you more reasons to smile. Keep being you.",
         closing: `With love,\n${senderName}`,
         replayLabel: "Replay Experience",
+        qr: {
+            heading: "Scan to Open This Gift",
+            caption: "Point your phone camera to open this experience on your own screen",
+            image: "/assets/decorations/qr-code.png",
+            link: "https://hbd-octaviya.vercel.app/",
+            alt: "QR code heart-shaped link to birthday gift",
+        },
     },
 };

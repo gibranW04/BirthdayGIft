@@ -6,6 +6,20 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 
 ---
 
+## [1.2.0] — 2026-09-12
+
+### Added
+
+- **Heart-Shaped QR Code Panel** in Final Section:
+  - QR code berbentuk hati ditampilkan di `#sec-final` antara pesan penutup dan tombol Replay.
+  - Heading: "Scan to Open This Gift".
+  - Caption petunjuk & link fallback teks (`https://hbd-octaviya.vercel.app/`).
+  - Styling glow gold/rose, frame putih elegan, responsive mobile.
+  - Scroll-reveal animation via IntersectionObserver & GSAP.
+  - Konten QR terpisah di `content.js` (`final.qr`).
+
+---
+
 ## [1.1.0] — 2026-09-11
 
 ### Added

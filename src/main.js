@@ -198,6 +198,27 @@ app.innerHTML = `
                     <h1 class="final-title">${birthdayData.final.title}</h1>
                     <p class="final-message">${birthdayData.final.message}</p>
                     <p class="final-closing">${birthdayData.final.closing}</p>
+
+                    <div class="qr-panel">
+                        <p class="qr-heading">${birthdayData.final.qr.heading}</p>
+                        <div class="qr-frame">
+                            <img
+                                class="qr-image"
+                                src="${birthdayData.final.qr.image}"
+                                alt="${birthdayData.final.qr.alt}"
+                            />
+                        </div>
+                        <p class="qr-caption">${birthdayData.final.qr.caption}</p>
+                        <a
+                            class="qr-link"
+                            href="${birthdayData.final.qr.link}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            ${birthdayData.final.qr.link}
+                        </a>
+                    </div>
+
                     <button class="replay-btn" id="replayBtn">${birthdayData.final.replayLabel}</button>
                 </div>
             </section>
@@ -772,7 +793,7 @@ function launchConfetti() {
 /* ── SCROLL REVEAL OBSERVER ── */
 function setupScrollObserver() {
     const targets = document.querySelectorAll(
-        ".personal-card, .paper-letter, .player-card, .polaroid-card, .section-hero .section-content, .section-final .section-content"
+        ".personal-card, .paper-letter, .player-card, .polaroid-card, .qr-panel, .section-hero .section-content, .section-final .section-content"
     );
 
     if (prefersReducedMotion.matches) return;

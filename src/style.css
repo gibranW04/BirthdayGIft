@@ -1007,6 +1007,69 @@ html, body {
     transform: translateY(-2px);
 }
 
+/* ── QR PANEL ── */
+.qr-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 48px;
+}
+
+.qr-heading {
+    font-family: var(--font-sans);
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
+    font-weight: 500;
+    color: var(--gold);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.qr-frame {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow:
+        0 0 30px rgba(255, 213, 79, 0.25),
+        0 0 60px rgba(244, 143, 177, 0.15);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.qr-frame:hover {
+    transform: scale(1.04);
+    box-shadow:
+        0 0 40px rgba(255, 213, 79, 0.35),
+        0 0 80px rgba(244, 143, 177, 0.25);
+}
+
+.qr-image {
+    display: block;
+    width: clamp(160px, 28vw, 220px);
+    height: auto;
+    border-radius: 6px;
+}
+
+.qr-caption {
+    font-size: clamp(0.8rem, 1.8vw, 0.95rem);
+    color: rgba(255, 255, 255, 0.6);
+    font-style: italic;
+    max-width: 320px;
+    text-align: center;
+}
+
+.qr-link {
+    font-size: 0.85rem;
+    color: var(--rose-soft);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(244, 143, 177, 0.35);
+    transition: color 0.3s, border-color 0.3s;
+}
+
+.qr-link:hover {
+    color: var(--gold);
+    border-color: var(--gold);
+}
+
 /* ── Confetti Container ── */
 .confetti-layer {
     position: fixed;
