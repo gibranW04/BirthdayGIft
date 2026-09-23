@@ -281,7 +281,7 @@ function createAmbientPetals() {
     container.innerHTML = "";
     if (prefersReducedMotion.matches) return;
 
-    const totalPetals = 35;
+    const totalPetals = window.innerWidth < 768 ? 10 : 22;
     const types = ["petal-rose", "petal-soft", "petal-gold", "petal-emoji"];
     const emojis = ["🌸", "🌺", "🌸", "✨", "🪻"];
 
@@ -702,6 +702,9 @@ function initMusicPlayer() {
             loadTrack(idx, true);
         });
     });
+
+    // Play the first track automatically when the experience is entered
+    loadTrack(0, true);
 
     function animateMusicBars(playing) {
         if (!playing || prefersReducedMotion.matches) {

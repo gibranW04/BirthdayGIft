@@ -36,7 +36,7 @@ export const birthdayData = {
             "Itu aja kali ya, paling juga ga dibaca semua sama lu",
             "Last but not least, Wish you all the best.",
         ],
-        signature: `With love, ${senderName} ❤️`,
+        signature: `${senderName}`,
     },
     music: {
         title: "Your Favorite Song",
@@ -66,7 +66,7 @@ export const birthdayData = {
         ],
     },
     memories: {
-        title: "Our Memories",
+        title: "Your Memories",
         subtitle: "Little Moments",
         photos: [
             {
@@ -80,12 +80,6 @@ export const birthdayData = {
                 caption: "Buddhiee Girl",
                 tag: "Still one of my favorites",
                 rotation: 2,
-            },
-            {
-                src: "/assets/images/us.jpeg",
-                caption: "Luv",
-                tag: "Little moment, big memory",
-                rotation: -2,
             },
             {
                 src: "/assets/images/unyu.jpeg",
@@ -134,7 +128,7 @@ export const birthdayData = {
     surprise: {
         title: "One More Thing...",
         subtitle: "Click the gift box to reveal a little message",
-        revealText: "Happy Birthday, Sweetheart! 🎉🎂🎁",
+        revealText: "Happy Birthday ... 🎉🎂🎁",
     },
     final: {
         title: "Happy Birthday",

@@ -6,6 +6,17 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 
 ---
 
+## [1.3.0] — 2026-09-23
+
+### Changed
+
+- **Music Auto-Play After Opening Envelope**:
+  - Lagu pertama kini langsung dimainkan secara otomatis begitu amplop surat dibuka dan masuk ke Main Experience.
+  - UI player ikut aktif (icon pause, visualizer bars, card "playing") tanpa perlu klik tombol play.
+- **Responsive Ambient Falling Petals**:
+  - Jumlah kelopak bunga berjatuhan disesuaikan ukuran layar: ~10 di mobile (768px breakpoint), ~22 di desktop/larger viewport (sebelumnya 35 di semua layar).
+  - Mengurangi penutupan layar pada tampilan HP.
+
 ## [1.2.0] — 2026-09-12
 
 ### Added
