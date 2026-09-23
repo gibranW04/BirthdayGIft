@@ -6,9 +6,25 @@ export const birthdayData = {
     senderName,
     game: {
         title: "A Little Game",
-        subtitle: "Collect 5 flowers for a special letter ♡",
-        almostThere: "Almost there... ♡",
-        targetCount: 5,
+        subtitle: "Jawab 3 tebak-tebakannya dulu, biar suratnya kebuka ♡",
+        completeMsg: "Semua benar! Suratnya kebuka... ♡",
+        questions: [
+            {
+                question: "Berapa tanggal lahir kamu?",
+                options: ["17 Agustus 1945", "28 Oktober 1928", "7 Oktober 2003", "7 Oktober 2001"],
+                answer: 2,
+            },
+            {
+                question: "Dimana sekolah terakhir kamu?",
+                options: ["Tadika Mesra", "SMKN 60 Jakarta", "SMPN 215", "Tidak sekolah"],
+                answer: 1,
+            },
+            {
+                question: "Siapa TEMAN sekolah terbaik kamu?",
+                options: ["Gibran Wicaksono", "Cacing", "Iban", "Semua benar"],
+                answer: 3,
+            },
+        ],
     },
     envelope: {
         title: "A Letter For You",

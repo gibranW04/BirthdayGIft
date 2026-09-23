@@ -16,12 +16,12 @@ app.innerHTML = `
             <h1 class="game-title">${birthdayData.game.title}</h1>
             <p class="game-subtitle">${birthdayData.game.subtitle}</p>
 
-            <div class="basket-wrapper" id="basketWrapper">
-                <div class="basket-icon" id="basketIcon">🧺</div>
-                <div class="basket-badge" id="flowerCounter">0 / ${birthdayData.game.targetCount}</div>
-            </div>
+            <div class="quiz-progress" id="quizProgress">1 / ${birthdayData.game.questions.length}</div>
 
-            <div class="game-arena" id="gameArena"></div>
+            <div class="quiz-card" id="quizCard">
+                <p class="quiz-question" id="quizQuestion"></p>
+                <div class="quiz-options" id="quizOptions"></div>
+            </div>
 
             <p class="game-toast" id="gameToast"></p>
         </div>
@@ -235,7 +235,7 @@ document.querySelector("#app").appendChild(confettiLayer);
 /* ── Global State ── */
 const state = {
     currentScene: "game",
-    collectedFlowers: 0,
+    quizIndex: 0,
     isPlayingMusic: false,
     envelopeOpened: false,
     surpriseOpened: false,
@@ -343,113 +343,110 @@ function createAmbientPetals() {
     }
 }
 
-/* ── PHASE 1: MINI GAME (COLLECT FLOWERS) ── */
+/* ── PHASE 1: MINI GAME (QUIZ) ── */
 function initGame() {
-    state.collectedFlowers = 0;
-    const arena = document.querySelector("#gameArena");
-    const counter = document.querySelector("#flowerCounter");
+    state.quizIndex = 0;
+    const progress = document.querySelector("#quizProgress");
+    const card = document.querySelector("#quizCard");
+    const questionEl = document.querySelector("#quizQuestion");
+    const optionsEl = document.querySelector("#quizOptions");
     const toast = document.querySelector("#gameToast");
-    const basketIcon = document.querySelector("#basketIcon");
+    const questions = birthdayData.game.questions;
 
-    arena.innerHTML = "";
     toast.textContent = "";
     toast.classList.remove("visible");
-    counter.textContent = `0 / ${birthdayData.game.targetCount}`;
 
-    const flowerEmojis = ["🌸", "🪻", "🌺", "🌼", "🌷"];
+    function renderQuestion(index) {
+        const q = questions[index];
+        progress.textContent = `${index + 1} / ${questions.length}`;
+        questionEl.textContent = q.question;
+        optionsEl.innerHTML = "";
 
-    // Spawn 5 interactive flowers
-    for (let i = 0; i < birthdayData.game.targetCount; i++) {
-        const flower = document.createElement("div");
-        flower.className = "flower-item";
-        flower.textContent = flowerEmojis[i % flowerEmojis.length];
-
-        // Safe relative placement
-        const leftPercent = 12 + (i % 3) * 32 + (Math.random() * 8 - 4);
-        const topPercent = 15 + Math.floor(i / 3) * 40 + (Math.random() * 8 - 4);
-
-        flower.style.left = `${Math.min(80, Math.max(8, leftPercent))}%`;
-        flower.style.top = `${Math.min(75, Math.max(10, topPercent))}%`;
-
-        arena.appendChild(flower);
-
-        // Subtle float animation
-        if (!prefersReducedMotion.matches) {
-            gsap.to(flower, {
-                y: -10,
-                duration: 1.4 + Math.random() * 0.8,
-                repeat: -1,
-                yoyo: true,
-                ease: "sine.inOut",
-                delay: Math.random() * 0.5,
-            });
-        }
-
-        // Touch / Click handler
-        flower.addEventListener("click", () => handleFlowerClick(flower));
-    }
-
-    function handleFlowerClick(flower) {
-        if (flower.dataset.collected === "true") return;
-        flower.dataset.collected = "true";
-
-        // Kill float animation
-        gsap.killTweensOf(flower);
-
-        // Play collection animation towards basket
-        const basketRect = basketIcon.getBoundingClientRect();
-        const flowerRect = flower.getBoundingClientRect();
-
-        const deltaX = basketRect.left - flowerRect.left;
-        const deltaY = basketRect.top - flowerRect.top;
-
-        gsap.to(flower, {
-            x: deltaX,
-            y: deltaY,
-            scale: 0.3,
-            opacity: 0,
-            duration: 0.6,
-            ease: "power2.in",
-            onComplete: () => {
-                flower.remove();
-            },
+        q.options.forEach((opt, i) => {
+            const btn = document.createElement("button");
+            btn.className = "quiz-option";
+            btn.textContent = opt;
+            btn.setAttribute("type", "button");
+            btn.addEventListener("click", () => handleAnswer(btn, i));
+            optionsEl.appendChild(btn);
         });
 
-        // Spawn light petal burst
-        spawnPetalBurst(flowerRect.left + 25, flowerRect.top + 25);
-
-        // Update count
-        state.collectedFlowers += 1;
-        counter.textContent = `${state.collectedFlowers} / ${birthdayData.game.targetCount}`;
-
-        // Basket wobble animation
         gsap.fromTo(
-            basketIcon,
-            { scale: 1.3, rotation: -12 },
-            { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(1.8)" }
+            card,
+            { opacity: 0, y: 18 },
+            { opacity: 1, y: 0, duration: prefersReducedMotion.matches ? 0.01 : 0.5, ease: "power2.out" }
         );
+    }
 
-        // Check completion
-        if (state.collectedFlowers >= birthdayData.game.targetCount) {
-            toast.textContent = birthdayData.game.almostThere;
+    function handleAnswer(btn, chosenIndex) {
+        if (btn.dataset.locked === "true") return;
+        const q = questions[state.quizIndex];
+
+        if (chosenIndex === q.answer) {
+            btn.dataset.locked = "true";
+            btn.classList.add("correct");
+            toast.textContent = "Benar! ♡";
             toast.classList.add("visible");
 
-            // Basket celebration pulse
-            gsap.to(basketIcon, {
-                scale: 1.4,
-                duration: 0.3,
-                yoyo: true,
-                repeat: 3,
-                ease: "sine.inOut",
+            const rect = btn.getBoundingClientRect();
+            spawnPetalBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
+
+            optionsEl.querySelectorAll(".quiz-option").forEach((b) => {
+                b.disabled = true;
             });
 
-            // Delay before entering Phase 2
-            setTimeout(() => {
-                showScene("envelope");
-                initEnvelope();
-            }, 1600);
+            if (state.quizIndex < questions.length - 1) {
+                setTimeout(() => {
+                    state.quizIndex += 1;
+                    renderQuestion(state.quizIndex);
+                }, 900);
+            } else {
+                toast.textContent = birthdayData.game.completeMsg;
+                gsap.fromTo(
+                    optionsEl,
+                    { scale: 1 },
+                    { scale: 1.06, duration: 0.3, yoyo: true, repeat: 3, ease: "sine.inOut" }
+                );
+
+                setTimeout(() => {
+                    showScene("envelope");
+                    initEnvelope();
+                }, 1600);
+            }
+        } else {
+            if (btn.dataset.locked === "true") return;
+            btn.dataset.locked = "true";
+            btn.classList.add("wrong");
+            toast.textContent = "Coba lagi yaa..";
+            toast.classList.add("visible");
+
+            if (prefersReducedMotion.matches) {
+                setTimeout(() => {
+                    btn.classList.remove("wrong");
+                    delete btn.dataset.locked;
+                }, 300);
+                return;
+            }
+
+            gsap.fromTo(
+                btn,
+                { x: 0 },
+                {
+                    x: 10,
+                    duration: 0.06,
+                    repeat: 4,
+                    yoyo: true,
+                    ease: "sine.inOut",
+                    onComplete: () => {
+                        btn.classList.remove("wrong");
+                        delete btn.dataset.locked;
+                    },
+                }
+            );
         }
     }
+
+    renderQuestion(0);
 }
 
 function spawnPetalBurst(x, y) {

@@ -6,6 +6,18 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 
 ---
 
+## [1.4.0] — 2026-09-23
+
+### Changed
+
+- **Phase 1 Mini Game: Collect Flowers → Quiz Tebak-tebakan**:
+  - Game "collect 5 flowers" diganti jadi kuis 3 pertanyaan pilihan ganda (multiple choice).
+  - Soal terkonfigurasi di `content.js` (`game.questions[]`): tanggal lahir, sekolah terakhir, teman sekolah terbaik.
+  - Jawaban benar → toast "Benar! ♡" + petal burst, lanjut ke soal berikutnya; soal terakhir benar → masuk ke amplop surat.
+  - Jawaban salah → efek shake + toast "Coba lagi yaa..", bisa mengulang sampai benar.
+  - Indikator progres soal (`1 / 3`), kartu kuis glassmorphism, dan state opsi benar/hijau & salah/merah.
+  - Tetap hormati `prefers-reduced-motion`.
+
 ## [1.3.0] — 2026-09-23
 
 ### Changed
